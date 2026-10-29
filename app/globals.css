@@ -1,0 +1,149 @@
+@import "tailwindcss";
+
+/* Paleta: crema y arena con luz cálida, tinta casi negra y dorado. */
+@theme {
+  --color-paper: #fcf9f4;
+  --color-cream: #f6f0e8;
+  --color-sand: #ebe1d3;
+  --color-clay: #d9cab6;
+  --color-ink: #1c1815;
+  --color-taupe: #6e6158;
+  --color-gold: #a5834c;
+  --color-gold-soft: #c9ad7f;
+  --color-whatsapp: #1fa855;
+
+  --font-display: var(--font-italiana), "Italiana", "Didot", Georgia, serif;
+  --font-sans: var(--font-jost), "Jost", "Futura", "Helvetica Neue", Arial, sans-serif;
+
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+  color-scheme: light;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-weight: 350;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-ink);
+  color: var(--color-cream);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+@layer components {
+  .container-x {
+    width: 100%;
+    max-width: 76rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+  @media (min-width: 768px) {
+    .container-x {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  /* Rótulo espaciado en mayúsculas, como «AESTHETICS» del logo. */
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 450;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+
+  /* Icono en círculo de línea fina, como los cuatro del logo. */
+  .ring-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    border: 1px solid currentColor;
+  }
+
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 100% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.4s var(--ease-soft);
+  }
+  .link-underline:hover {
+    background-size: 0% 1px;
+    background-position: 100% 100%;
+  }
+
+  /* Placeholder etiquetado para fotos que aún no tenemos. */
+  .placeholder-photo {
+    background:
+      repeating-linear-gradient(135deg, transparent 0 14px, color-mix(in srgb, var(--color-clay) 45%, transparent) 14px 15px),
+      var(--color-sand);
+  }
+}
+
+/* Aparición suave al hacer scroll. Sin JS o con movimiento reducido, todo visible. */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.9s var(--ease-soft),
+    transform 0.9s var(--ease-soft);
+}
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* Carrusel horizontal en móvil: solo se desliza a los lados, nunca arriba o abajo.
+   Como utilidad, para que sm:/md:/lg:overflow-visible puedan anularlo. */
+@utility carousel {
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  touch-action: pan-x pan-y;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Desplegables <details> sin el triángulo del navegador. */
+summary::-webkit-details-marker {
+  display: none;
+}
+summary {
+  list-style: none;
+}
